@@ -10,5 +10,4 @@ func main() {
 	for key, value := range ranks {
 		fmt.Println("键值为：", key, "所对应的值为：", value)
 	}
-
 }
