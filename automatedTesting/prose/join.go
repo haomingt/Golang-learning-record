@@ -3,9 +3,16 @@ package prose
 import "strings"
 
 func JoinWithCommas(phrase []string) string {
-	result := strings.Join(phrase[:len(phrase)-1], ",")
-	result += ",and "
-	result += phrase[len(phrase)-1]
-	return result
+	var result string
+	if len(phrase) == 2 {
+		result = strings.Join(phrase, " and ")
+	} else if len(phrase) == 3 {
+		result = strings.Join(phrase[:len(phrase)-1], ",")
+		result += ", and "
+		result += phrase[len(phrase)-1]
 
+	} else {
+		result = phrase[0]
+	}
+	return result
 }

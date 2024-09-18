@@ -25,4 +25,6 @@ func main() {
 	fmt.Print(<-channel1)
 	fmt.Print(<-channel2)
 	fmt.Println()
+	greeting(channel1)
+	
 }
