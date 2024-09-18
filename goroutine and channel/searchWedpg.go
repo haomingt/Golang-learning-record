@@ -5,10 +5,14 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"time"
 )
 
-func responseSize(url string) {
+type Page struct {
+	url   string
+	sizes int
+}
+
+func responseSize(url string, channel chan Page) {
 	fmt.Println("Getting", url)
 	response, err := http.Get(url)
 	if err != nil {
@@ -19,12 +23,19 @@ func responseSize(url string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(len(body))
+	channel <- Page{url: url, sizes: len(body)}
 }
 
 func main() {
-	go responseSize("https://zhuanlan.zhihu.com/p/662142510")
-	go responseSize("https://www.iana.org/help/example-domains")
-	go responseSize("https://zhuanlan.zhihu.com")
-	time.Sleep(time.Second * 5)
+	page := make(chan Page)
+	urls := []string{"https://zhuanlan.zhihu.com/p/662142510",
+		"https://www.iana.org/help/example-domains",
+		"https://zhuanlan.zhihu.com"}
+	for _, str := range urls {
+		go responseSize(str, page)
+	}
+	for _, _ = range urls {
+		fmt.Println(<-page)
+	}
+
 }
