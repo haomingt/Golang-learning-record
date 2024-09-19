@@ -11,7 +11,7 @@ func JoinWithCommas(phrase []string) string {
 		result += ", and "
 		result += phrase[len(phrase)-1]
 
-	} else {
+	} else if len(phrase) == 1{
 		result = phrase[0]
 	}
 	return result
